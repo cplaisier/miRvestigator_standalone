@@ -1,7 +1,12 @@
 Copyright -- Chris Plaisier (4/14/2011)
 This is a program to identify miRNAs from a Position Specific Scoring Matrix. A PSSM is read from a user specified file and is then passed to miRvestigator which downloads the mature miRNA seed seqeunces from miRbase.org and compares these mature seed sequences against the PSSM. This is accomplished by converting the PSSM into a Hidden Markov Model (HMM), very similar to a profile HMM, and then using the Viterbi algorithm to simultaneously align and calcualte a probabilty for the alighment of the miRNA seed to the HMM. A p-value is calculated by exhaustively comparing all potential miRNA seed sequneces that could bind to 3' UTRs, and using simulations the p-value for the Viterbi probability is the optimal metric for gauging miRNA seed to PSSM similarity.
 
-This is the command line help from the miRvestigator python object:
+In order to run this program you will need:
+
+Python (www.python.org)
+Active internet connection to download latest miRBase release
+
+Use the python program to run the Run the command using 'python miRvestigator_standalone.py' to see the command line help:
 
 ###############################################################
 #                                                             #
@@ -10,32 +15,33 @@ This is the command line help from the miRvestigator python object:
 # Licensed under the Academic Free License version 2.1        #
 #                                                             #
 ###############################################################
-Usage: miRvestigator_standalone.py [options]
+Usage: python miRvestigator_standalone.py -p example.fasta -s hsa -wobble NA -6
+N -7 N -8 Y
 
 Options:
   -h, --help            show this help message and exit
   -p PSSMFILE, --pssmFile=PSSMFILE
-                        Name of the PSSM file entered using a fasta like
-                        format where each motif is named and is followed with
-                        rows A, C, G, T and columns equal to the lenght of the
-                        motif (values in the matrix should be separated by
-                        spaces). The values entered should be probabilities
-                        and the columns should sum to 1. (Required)
+                        [Required] Name of the PSSM file entered using a fasta
+                        like format where each motif is named and is followed
+                        with rows A, C, G, T and columns equal to the lenght
+                        of the motif (values in the matrix should be separated
+                        by spaces). The values entered should be probabilities
+                        and the columns should sum to 1.
   -s SPECIES, --species=SPECIES
                         Species code whose miRNAs the PSSMs should be compared
                         against. Common species codes (<code> = <species>):
                         cel = Caenohabditis elegans (worm), dme = Drosophila
                         melanogaster (fly), gga = Gallus gallus (chicken), hsa
                         = Homo sapiens (human), mmu = Mus musculus (mice), rno
-                        = Rattus norvegicus (rat).
+                        = Rattus norvegicus (rat). Defaults to hsa, human.
   -w WOBBLE, --wobble=WOBBLE
                         Whether wobble base-pairing should be modeled. Set to
                         minimum frequency of G or U (default is 0.25).
   -6 M6, --6mer=M6      Whether 6mer seed model should be included. (Y or N).
                         Defaults to Y.
-  -7 M7, --7mer=M7      Whether 6mer seed model should be included. (Y or N).
+  -7 M7, --7mer=M7      Whether 7mer seed model should be included. (Y or N).
                         Defaults to Y.
-  -8 M8, --8mer=M8      Whether 6mer seed model should be included. (Y or N).
+  -8 M8, --8mer=M8      Whether 8mer seed model should be included. (Y or N).
                         Defaults to Y.
 
 More than one motif may be input into the miRvestigator HMM stand alone application. The results for each PSSM are placed into a <PSSM-NAME>.csv file in the sub-directory called 'miRNA' as CSV files and ranked based on the Viterbi P-Value (smallest to largest).
