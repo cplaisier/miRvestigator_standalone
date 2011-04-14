@@ -25,6 +25,18 @@ from random import sample
 import cPickle
 from math import log
 from sys import stdout
+import re
+import unicodedata
+
+# https://github.com/zacharyvoase/slugify/blob/master/src/slugify.py
+def slugify(string):
+    return re.sub(r'[-\s]+', '-',
+            unicode(
+                re.sub(r'[^\w\s-]', '',
+                    unicodedata.normalize('NFKD', unicode(string))
+                    .encode('ascii', 'ignore'))
+                .strip()
+                .lower()))
 
 # A class designed to compute and hold the information from analyzing
 # miRNA seeds against motifs from 3' UTRs.
@@ -200,7 +212,7 @@ class miRvestigator:
                 dirName = 'miRNA'
                 if not os.path.exists(dirName):
                     os.mkdir(dirName) 
-                outFile = open(dirName+'/'+str(pssm.getName())+'.csv','w')
+                outFile = open(dirName+'/'+slugify(str(pssm.getName()))+'.csv','w')
                 outFile.write('miRNAname,miRNAseed,AlignStart,AlignStop,AlignLength,AlignmentModel,MotifAlign (5\'->3\'),Align,SeedAlign(3\'->5\'),P(Total),P-valueTotal,P(Viterbi),P-valueViterbi') # Header
                 #out2File = open(dirName+'/'+str(pssm.getName())+'_all.csv','w')
                 headNum = 0
@@ -841,4 +853,6 @@ print 'Read',len(pssms),'pssms.'
 print '\nRunning miRvestigator...'
 mV = miRvestigator(pssms,seedModel=seedModels,minor=True,p5=True,p3=True,wobble=wobble,wobbleCut=wobbleCut,species=options.species)
 print 'Done.'
+
+print '\nResults can be found in the miRNA sub-directory.'
 
