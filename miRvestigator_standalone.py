@@ -788,14 +788,14 @@ print "#                                                             #"
 print "###############################################################"
 
 #### Option Parsing ####
-usage = "%prog [options]"
+usage = "python %prog -p example.fasta -s hsa -wobble NA -6 N -7 N -8 Y"
 parser = OptionParser(usage)
-parser.add_option("-p", "--pssmFile", action="store", type="string", dest="pssmFile", default="NA", help="Name of the PSSM file entered using a fasta like format where each motif is named and is followed with rows A, C, G, T and columns equal to the lenght of the motif (values in the matrix should be separated by spaces). The values entered should be probabilities and the columns should sum to 1.")
-parser.add_option("-s", "--species", action="store", type="string", dest="species", default="hsa", help="Species code whose miRNAs the PSSMs should be compared against. Common species codes (<code> = <species>): cel = Caenohabditis elegans (worm), dme = Drosophila melanogaster (fly), gga = Gallus gallus (chicken), hsa = Homo sapiens (human), mmu = Mus musculus (mice), rno = Rattus norvegicus (rat).")
+parser.add_option("-p", "--pssmFile", action="store", type="string", dest="pssmFile", default="NA", help="[Required] Name of the PSSM file entered using a fasta like format where each motif is named and is followed with rows A, C, G, T and columns equal to the lenght of the motif (values in the matrix should be separated by spaces). The values entered should be probabilities and the columns should sum to 1.")
+parser.add_option("-s", "--species", action="store", type="string", dest="species", default="hsa", help="Species code whose miRNAs the PSSMs should be compared against. Common species codes (<code> = <species>): cel = Caenohabditis elegans (worm), dme = Drosophila melanogaster (fly), gga = Gallus gallus (chicken), hsa = Homo sapiens (human), mmu = Mus musculus (mice), rno = Rattus norvegicus (rat). Defaults to hsa, human.")
 parser.add_option("-w", "--wobble", action="store", type="string", dest="wobble", default="NA", help="Whether wobble base-pairing should be modeled. Set to minimum frequency of G or U (default is 0.25).")
 parser.add_option("-6", "--6mer", action="store", type="string", dest="m6", default="Y", help="Whether 6mer seed model should be included. (Y or N). Defaults to Y.")
-parser.add_option("-7", "--7mer", action="store", type="string", dest="m7", default="Y", help="Whether 6mer seed model should be included. (Y or N). Defaults to Y.")
-parser.add_option("-8", "--8mer", action="store", type="string", dest="m8", default="Y", help="Whether 6mer seed model should be included. (Y or N). Defaults to Y.")
+parser.add_option("-7", "--7mer", action="store", type="string", dest="m7", default="Y", help="Whether 7mer seed model should be included. (Y or N). Defaults to Y.")
+parser.add_option("-8", "--8mer", action="store", type="string", dest="m8", default="Y", help="Whether 8mer seed model should be included. (Y or N). Defaults to Y.")
 (options, args) = parser.parse_args()
 
 if options.pssmFile=='NA':
